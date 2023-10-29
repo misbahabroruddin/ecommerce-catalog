@@ -15,8 +15,6 @@
       `bg-unavailable`
     "
   ></div>
-
-  <div></div>
 </template>
 
 <script setup>

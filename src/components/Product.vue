@@ -3,8 +3,9 @@
   <div class="product-wrapper">
     <div class="title-wrapper">
       <h1
-        :class="product?.category === `men's clothing` && `text-men`"
-        v-bind:class="product?.category === `women's clothing` && `text-women`"
+        :class="
+          product?.category === `men's clothing` ? `text-men` : `text-women`
+        "
       >
         {{ product?.title }}
       </h1>
@@ -42,23 +43,26 @@
     </div>
     <div class="price-wrapper">
       <p
-        :class="product?.category === `men's clothing` && `text-men`"
-        v-bind:class="product?.category === `women's clothing` && `text-women`"
+        :class="
+          product?.category === `men's clothing` ? `text-men` : `text-women`
+        "
       >
         $ {{ product?.rating?.count }}
       </p>
     </div>
     <div class="button-wrapper">
       <button
-        :class="product?.category === `men's clothing` && `btn-men`"
-        v-bind:class="product?.category === `women's clothing` && `btn-women`"
+        :class="
+          product?.category === `men's clothing` ? `btn-men` : `btn-women`
+        "
       >
         Buy now
       </button>
       <button
         @click="handleClick"
-        :class="product?.category === `men's clothing` && `btn-men`"
-        v-bind:class="product?.category === `women's clothing` && `btn-women`"
+        :class="
+          product?.category === `men's clothing` ? `btn-men` : `btn-women`
+        "
       >
         Next Product
       </button>
