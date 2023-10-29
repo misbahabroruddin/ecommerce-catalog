@@ -1,24 +1,65 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue';
-</script>
-
 <template>
-  <div>
-    <h1>hello</h1>
+  <Background :product="product" />
+  <div class="container">
+    <Loading :is-loading="isLoading" />
+    <div
+      class="inner-container"
+      v-if="
+        (product?.category === `women's clothing` ||
+          product?.category === `men's clothing`) &&
+        !isLoading
+      "
+    >
+      <Product :product="product" @click="incrementId" />
+    </div>
+    <div
+      class="inner-container"
+      v-else-if="
+        (product?.category !== `women's clothing` ||
+          product?.category !== `men's clothing`) &&
+        !isLoading
+      "
+    >
+      <ProductUnavailable :product="product" @click="incrementId" />
+    </div>
   </div>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<script setup>
+import { onMounted, ref, watch } from 'vue';
+import Background from './components/Background.vue';
+import ProductUnavailable from './components/ProductUnavailable.vue';
+import Loading from './components/Loading.vue';
+import Product from './components/Product.vue';
+
+const Id = ref(1);
+const isLoading = ref(false);
+const product = ref({});
+
+const fetchProduct = async () => {
+  try {
+    isLoading.value = true;
+    const res = await fetch(`https://fakestoreapi.com/products/${Id.value}`);
+    const data = await res.json();
+    product.value = data;
+    isLoading.value = false;
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+onMounted(async () => {
+  await fetchProduct();
+});
+
+const incrementId = () => {
+  Id.value++;
+  if (Id.value > 20) {
+    Id.value = 1;
+  }
+};
+
+watch(Id, async () => {
+  await fetchProduct();
+});
+</script>
